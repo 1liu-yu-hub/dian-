@@ -68,7 +68,7 @@ again:
 				//选择商品，计算总价
 				while (1)
 				{
-					if (strcmp(buy_code, "0") == 0)
+					if (strcmp(buy_code, "exit") == 0)
 					{
 						goto again;
 					}
