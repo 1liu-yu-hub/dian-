@@ -27,24 +27,25 @@ int main()
 {
 	int choice = 0;
 	int a = 1;
-	int buy_code = 0;
+	char buy_code[8];
 	int buying = 1;
 	double allprice = 0;
 	int mount_cola = 0;
 	int mount_lollipop = 0;
 	int mount_noodles = 0;
 
-	again:
+
+again:
 
 	printf("\n欢迎来到七一一便利店\n");
-	printf("1.菜单\n2.结账\n3.退出\n");
+	printf("1.price\n2.checkout\n3.exit\n");
 	printf("请选择：");
 
-	while(a)
+	while (a)
 	{
-	scanf("%d", &choice);
+		scanf("%d", &choice);
 
-		switch(choice)
+		switch (choice)
 		{
 			//购买部分
 		case 1:
@@ -59,20 +60,22 @@ int main()
 					printf("名称：%-6s | 编号：%-6s | 价格：%.2f \n", items[i].name, items[i].code, items[i].price);
 				}
 				printf("-----------------------------------------\n");
-				printf("请输入要购买商品的序号\n(输入0则返回主菜单,输入111清空购物车）：");
+				printf("请输入相应的操作：");
 
 				//输入0返回
-				scanf("%d", &buy_code);
-				
+				scanf("%s", &buy_code);
+
 				//选择商品，计算总价
 				while (1)
 				{
-					if (buy_code == 0)
+					if (strcmp(buy_code, "0") == 0)
 					{
 						goto again;
 					}
 
-					if (buy_code == 001)
+					if (strcmp(buy_code,"001") == 0)
+
+
 					{
 						allprice += 3.50f;
 						printf("已购买cola，总价为%.2f\n", allprice);
@@ -80,7 +83,7 @@ int main()
 						break;
 					}
 
-					else if (buy_code == 002)
+					else if (strcmp(buy_code,"002") == 0)
 					{
 						allprice += 0.50;
 						printf("已购买lollipop，总价为%.2f\n", allprice);
@@ -88,7 +91,7 @@ int main()
 						break;
 					}
 
-					else if (buy_code == 003)
+					else if (strcmp(buy_code,"003") == 0)
 					{
 						allprice += 6.00;
 						printf("已购买noodles，总价为%.2f\n", allprice);
@@ -97,15 +100,46 @@ int main()
 					}
 
 					//清空购物车
-					else if (buy_code == 111)
+					else if (strcmp(buy_code, "drop") == 0)
 					{
 						mount_cola = 0;
 						mount_lollipop = 0;
 						mount_noodles = 0;
 						allprice = 0;
+						printf("购物车已清空，总价为%.2f\n", allprice);
 						break;
 					}
-					
+
+					//删除物品
+					else if (strcmp(buy_code, "-001") == 0)
+					{
+						allprice -= 3.50f;
+						printf("已删除cola，总价为%.2f\n", allprice);
+						mount_cola--;
+						break;
+					}
+
+					else if (strcmp(buy_code, "-002") == 0)
+					{
+						allprice -= 0.50;
+						printf("已删除lollipop，总价为%.2f\n", allprice);
+						mount_lollipop--;
+						break;
+					}
+
+					else if (strcmp(buy_code, "-003") == 0)
+					{
+						allprice -= 6.00;
+						printf("已删除noodles，总价为%.2f\n", allprice);
+						mount_noodles--;
+						break;
+					}
+
+
+
+
+
+
 					else
 						printf("\n\n输入错误，请重新输入编号");
 					break;
@@ -114,14 +148,21 @@ int main()
 			}
 			break;
 
+			//打印小票部分
 		case 2:
-			printf("您总共购买了%d件cola，%d件lollipop，%d件noodles\n",
-				mount_cola, mount_lollipop, mount_noodles);
+			printf("                小票                 \n");
+			printf("-------------------------------------\n");
+			printf("名称\t数量\t单价\t总价\n");
+			printf("%-6s\t%-6d\t%.2f\t%.2f\n", items[0].name, mount_cola, items[0].price, mount_cola * items[0].price);
+			printf("%-6s%-6d\t%.2f\t%.2f\n", items[1].name, mount_lollipop, items[1].price, mount_lollipop * items[1].price);
+			printf("%-6s\t%-6d\t%.2f\t%.2f\n", items[2].name, mount_noodles, items[2].price, mount_noodles * items[2].price);
+			printf("-------------------------------------\n");
 
 			printf("总价为：%.2f\n", allprice);
-			printf("请支付\n");
+			printf("请支付\n\n\n");
+			goto again;
 
-		//输入3直接退出
+			//输入3直接退出
 		case 3:
 			a--;
 			break;
@@ -132,7 +173,7 @@ int main()
 
 		}
 	}
-
+}
 
 
 
